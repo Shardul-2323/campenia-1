@@ -1,0 +1,45 @@
+/* placement of header, footer and central content */
+html,body {
+    height: 100%;
+}
+
+.grid,body {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: [main-start] 1fr [content-start] minmax(300px, 1000px) [content-end] 1fr [main-end];
+    grid-template-rows: 80px auto 150px;
+}
+
+.grid-content {
+    grid-column: content;
+}
+
+header, footer, .main {
+    grid-column: main;
+}
+
+header {
+    grid-row-start: 1;
+}
+
+footer {
+    grid-row-end: -1;
+    margin-top: 15px;
+    align-self: end;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.small {
+    font-size: 14px;
+    width: 80%;
+    margin-left: 10%;
+}
+
+#submission-history {
+    font-size: 12px;
+}

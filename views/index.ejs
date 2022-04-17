@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<title>Travel Advisor</title>
+	<link rel="icon" href="favicon.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/sheet.css">
+	<link rel="stylesheet" type="text/css" href="/css/grid.css">
+	<link rel="stylesheet" type="text/css" href="/css/back.css">
+	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+</head>
+
+<body>
+	<header>
+		<% include partials/header %>
+	</header>
+	<div class="main">
+
+		<div class="container">
+			<div class="row">
+				<!-- <div class="col col-xl-4 col-lg-4 col-md-12 col-sm-12 box1">
+					<div class="in-box1">
+						<h3>Recent News</h3>
+						<hr>
+					</div>
+				</div> -->
+				<!--<div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 box1">
+					<div class="in-box1">
+						<h3>Recent Problems</h3>
+						<hr>
+						<table class="table sortable">
+							<thead>
+								<tr>
+									<th><a><i class="fa fa-sort" aria-hidden="true"></i> Name</a></th>
+									<th><a><i class="fa fa-sort" aria-hidden="true"></i> Difficulty</a></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var i = recentProblems.length-1; i >= Math.max(0, recentProblems.length-6); i--) { %>
+								<tr>
+									<td>
+										<a href="/problem/<%= recentProblems[i].qID %>"><%= recentProblems[i].name %></a>
+									</td>
+									<td>
+										<% if (recentProblems[i].difficulty == 0) { %>Beginner<% } %>
+										<% if (recentProblems[i].difficulty == 1) { %>Easy<% } %>
+										<% if (recentProblems[i].difficulty == 2) { %>Medium<% } %>
+										<% if (recentProblems[i].difficulty == 3) { %>Hard<% } %>
+									</td>
+								</tr>
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 box1">
+					<div class="in-box1">
+						<h3>Top Users</h3>
+						<hr>
+						<table class="table sortable">
+							<thead>
+								<tr>
+									<th><a><i class="fa fa-sort" aria-hidden="true"></i> Rank</a></th>
+									<th><a><i class="fa fa-sort" aria-hidden="true"></i> Username</a></th>
+									<th><a><i class="fa fa-sort" aria-hidden="true"></i> Solved</a></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var i = 0; i < Math.min(ranks.length, 6); i++) { %>
+								<tr>
+									<td>
+										<%= ranks[i].rank %>
+									</td>
+									<td>
+										<%= ranks[i].username %>
+									</td>
+									<td>
+										<%= ranks[i].solved %>
+									</td>
+								</tr>
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+				</div>-->
+			</div>
+		</div>
+	</div>
+	<footer>
+		<% include partials/footer %>
+	</footer>
+</body>
+<script>
+	var URL = window.location.href;
+	if (URL.search("msg=") != -1) {
+		var message = URL.split("msg=")[1];
+		message = message.replace(/-/g, " ");
+		window.alert(message);
+	}
+</script>
+
+</html>

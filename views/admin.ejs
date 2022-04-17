@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin | TravelAdvisor</title>
+    <meta charset="utf-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/sheet.css">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/grid.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+
+</head>
+
+<body >
+    <header>
+        <% include partials/header %>
+    </header>
+
+    <div class="grid-content content">
+        <div class="box" style="width: 70%; margin-left: 20%;">
+            <!--<a href="/admin/add" style="font-size: 15px;">ADD PROBLEM</a> |
+            <a href="/admin/new-contest" style="font-size: 15px;">HOST NEW CONTEST</a> |
+            <a href="/admin/my-contests" style="font-size: 15px;">SHOW/EDIT CONTESTS</a> |-->
+            <!--<a href="/admin/manage-admins" style="font-size: 15px;">MANAGE ADMINS</a>-->
+            <h1 class="title center"> Admin</h1>
+            <hr>
+            <table class="table sortable">
+                <thead>
+                    <tr>
+                        <th><a href="/admin/manage-admins" style="font-size: 15px;">MANAGE ADMINS</a></th>
+                        <th><a href="https://console.cloud.google.com/billing/linkedaccount?project=travel-ad-341010" style="font-size: 15px;">Billing</a></th>
+                        <th><a href="https://rapidapi.com/developer/dashboard" style="font-size: 15px;">Api Testing</a></th>
+                        <th><a href="https://cloud.mongodb.com/v2/5f829b38e158967a54d87526#clusters" style="font-size: 15px;">Manage Database</a></th>
+                    </tr>
+                    
+                </thead>
+                
+            </table>
+            <!--<table class="table sortable">
+                <thead>
+                    <tr>
+                        <th><a><i class="fa fa-sort" aria-hidden="true"></i> Id</a></th>
+                        <th><a><i class="fa fa-sort" aria-hidden="true"></i> Name</a></th>
+                        <th><a><i class="fa fa-sort" aria-hidden="true"></i> Contests</a></th>
+                        <th><a><i class="fa fa-sort" aria-hidden="true"></i> Visible publicly</a></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                    <tr>
+                        <td>
+                            <%= data[i].qID %>
+                        </td>
+                        <td>
+                            <%= data[i].name %>
+                        </td>
+                        <td>
+                            <% if (data[i].contests.length===0) { %>
+                                No Contests Found
+                            <% } %>
+                            
+                            <% for(var j = 0; j < data[i].contests.length; j++) { %>
+                                <a href="/contests/<%= data[i].contests[j]%>">
+                                     <%= data[i].contests[j] %>,  
+                                </a>
+                            <% } %>
+                        </td>
+                        <td>
+                            <%= data[i].isVisible %>
+                        </td>
+                        <td>
+                            <form method="POST" action="/admin/dlt_prob/<%= data[i].qID %>">
+                                <a href="/admin/edit/<%= data[i].qID %>"><button type="button"
+                                        class="btn btn-success btn-sm">EDIT</button></a>
+                                <button type="submit" class="btn btn-danger btn-sm">DELETE</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>-->
+        </div>
+    </div>
+
+    <footer>
+        <% include partials/footer %>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,166 @@
+var passport = require('passport');
+var user = require('../models/users');
+//var submissions = require('../models/submission');
+var moment = require("moment");
+
+/**POST: user signup 
+ * route: /user/signup
+*/
+exports.postSignUp = function (req, res) {
+    user.findOne({ username: req.body.username })
+        .then((data) => {
+            /**If any user with same username exists */
+            if (data) {
+                return res.send({ message: "Username already exists!"});
+            }
+            /**Checking the password */
+            if (req.body.password !== req.body.password2) {
+                return res.send({ message: "Password does not match" });
+            }
+            /**Everything is fine now, and ready to create a new account object */
+            var acc = new user({
+                name: req.body.name,
+                username: req.body.username,
+                email: req.body.email,
+                /**By default the admin access is not provided */
+                isAdmin: false
+            });
+            /**Registering the new user */
+            user.register(acc, req.body.password, (err, user) => {
+                if (err) {
+                    return res.send( { message: err });
+                }
+                /**New user signup successfully */
+                passport.authenticate('local')(req, res, function () {
+                    /**Redirecting to homepage with the success message */
+                    res.send({valid: true});
+                });
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+};
+
+/**POST: user login 
+ * route: user/login
+*/
+exports.postLogin = function (req, res) {
+    passport.authenticate('local', function (err, user) {
+        if (!user) {
+            return res.send({ message: "Wrong username or password" });
+        }
+        req.logIn(user, function (err) {
+            if (err) {
+                console.log(err);
+                return res.send({ message: "Wrong username or password" });
+            }
+            return res.send({valid: true});
+        });
+    })(req, res);
+};
+
+/**Loggin out the user, redirected to the homepage 
+ * route: /user/logout
+*/
+exports.getLogout = function (req, res) {
+    req.logout();
+    res.redirect('/');
+}
+
+/**Implementing the routing guards */
+exports.enforceAuthentication = (loginRequired = true, adminRequired = false) => (req, res, next) => {
+    if (loginRequired === req.isAuthenticated()) {
+        if (!adminRequired || req.user.isAdmin) {
+            next();
+        } else {
+            res.redirect('/');
+        }
+    } else {
+        res.redirect('/');
+    }
+}
+
+/**To show the user profile when logged in
+ * route: /user/profile 
+ * */
+exports.showProfile = async (req, res, next) => {
+    /**Collecting the user's data from the submissions collection */
+    submissions.find({ username: res.locals.user.username })
+        .then((data) => {
+            /**Object for storing the user submission statistics */
+            stats = {
+                AC: 0,
+                WA: 0,
+                TLE: 0,
+                RE: 0,
+                CE: 0
+            };
+            /**Checking the verdict of each user submissions */
+            data.forEach(subm => {
+                if (subm.verdict === "Accepted") {
+                    stats.AC += 1;
+                }
+                else if (subm.verdict === "Wrong Answer") {
+                    stats.WA += 1;
+                }
+                else if (subm.verdict === "Time Limit Exceeded") {
+                    stats.TLE += 1;
+                }
+                else if (subm.verdict === "Compilation Error") {
+                    stats.CE += 1;
+                }
+                else {
+                    stats.RE += 1;
+                }
+            });
+            res.render("profile", { stats: stats });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+
+
+/**Getting the webpage for user info update
+ * route: /user/updateProfile
+ */
+exports.getUpdateProfile = (req, res, next) => {
+    res.render("edit_profile", { message: null });
+}
+
+/**Updating the user info i.e. email, name and password
+ * POST: /user/updateProfile
+ */
+exports.postUpdateProfile = async (req, res, next) => {
+    let message = "";
+    /**Updating the user email and/or name */
+    try {
+        if (req.body.email) {
+            await user.findByIdAndUpdate({ _id: req.user._id }, { email: req.body.email });
+            message += "Your-email-has-been-updated";
+        }
+        if (req.body.name) {
+            await user.findOneAndUpdate({ _id: req.user._id }, { name: req.body.name });
+            message += "Your-name-has-been-updated";
+        }
+    } catch (error) {
+        message += "Error-updating-your-email,name";
+    }
+    /**Updating the user password */
+    try {
+        if (req.body.old && req.body.new) {
+            await req.user.changePassword(req.body.old, req.body.new);
+            message += "Your-password-has-been-updated";
+        }
+    } catch (error) {
+        if (error.message === "Password-or-username-is-incorrect") {
+            message += "Current-Password-is-incorrect";
+        } else {
+            message += "Error-updating-your-password";
+        }
+    }
+    /**Passing the message in the form of the URL */
+    res.redirect("/user/updateProfile?msg=" + (message || "Try-Again"));
+}

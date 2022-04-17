@@ -1,0 +1,38 @@
+.submit-container {
+    height: 550px;
+    width: 70%;
+    border-left: 1px solid rgb(221, 221, 221);
+    border-right: 1px solid rgb(221, 221, 221);
+    margin-left: 15%;
+    text-align: center;
+}
+#prob-no {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 25px;
+}
+#editor {
+    font-size: 15px;
+    height: 67%;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    margin-left: 5%;
+    margin-right: 5%;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 10px;
+}
+.submit {
+    text-align: center;
+}
+.btn-md {
+    margin-left: 10px;
+}
+.submit-result {
+    width: 70%;
+    margin-bottom: 30px;
+    margin-left: 15%;
+}
+#running {
+    margin-left: 45%;
+    font-size: 18px;
+}
